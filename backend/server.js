@@ -1,16 +1,23 @@
 const express = require('express');
 const app = express();
-const PORT = 5000;
 
-// Middleware
-app.use(express.json());
-
-// Exemple de route
-app.get('/api', (req, res) => {
-  res.json({ message: 'Hello from Express!' });
+// Routes
+app.get('/home', (req, res) => {
+    res.send('Bienvenue sur la page d\'accueil !');
 });
 
-// Lancer le serveur
+app.get('/about', (req, res) => {
+    res.send('À propos de nous');
+});
+
+app.post('/contact', (req, res) => {
+    res.send('Formulaire de contact soumis');
+});
+
+const homeRoutes = require('./routes/routes');
+app.use('/home', homeRoutes);
+
+const PORT = 5001;
 app.listen(PORT, () => {
-  console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
+    console.log(`Serveur lancé sur http://localhost:${PORT}`);
 });
