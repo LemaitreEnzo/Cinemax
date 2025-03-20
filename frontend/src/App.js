@@ -28,13 +28,13 @@ function AddMovieForm() {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setMovie({ ...movie, [name]: value });
+        setMovie({ ...movie, [name]: name === 'duration' || name === 'releaseYear' ? Number(value) : value });
     };
-
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:5001/api/films', {
+            const response = await fetch('http://localhost:5000/api/films', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,7 +43,9 @@ function AddMovieForm() {
             });
 
             if (!response.ok) {
-                throw new Error('Une erreur est survenue');
+                const errorData = await response.json();
+                console.error('Détails de l\'erreur :', errorData);
+                throw new Error(errorData.error || 'Une erreur est survenue');
             }
 
             const data = await response.json();
