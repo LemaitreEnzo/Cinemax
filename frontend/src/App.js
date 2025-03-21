@@ -1,41 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-function Home() {
-    return <h1>Accueil</h1>;
-}
-
-function About() {
-    return <h1>À propos</h1>;
-}
-
-function Contact() {
-    return <h1>Contactez-nous</h1>;
-}
-
-function Profile({ id }) {
-  return <h1>Profil utilisateur : {id}</h1>;
-}
-
-<Route path="/profile/:id" element={<Profile />} />
 
 function App() {
-    return (
-        <Router>
-            <nav>
-                <Link to="/">Accueil</Link>
-                <Link to="/about">À propos</Link>
-                <Link to="/contact">Contact</Link>
-                <Link to="/profil">Profil</Link>
-            </nav>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/profil" element={<Profile />} />
-            </Routes>
-        </Router>
-    );
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:5001/api/films');
+                const data = await response.json();
+                setData(data);
+            } catch (error) {
+                console.error('Erreur lors de la récupération des films :', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    console.log(data);
+
+    return <></>;
 }
 
 export default App;
