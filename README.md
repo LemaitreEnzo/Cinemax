@@ -49,5 +49,5 @@ Cinemax est une plateforme e-commerce dédiée aux films, permettant aux utilisa
 
    - 🌐 FontEnd
        ```sh
-       cd backend
+       cd frontend
        npm install package.json
