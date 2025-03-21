@@ -8,7 +8,6 @@ require('dotenv').config();
 
 // Connexion à MongoDB
 mongoose.connect(process.env.MONGODB_URI)
-.then((result) => app.listen(5000))
 .then(() => console.log("Connecté à MongoDB"))
 .catch(err => console.error("Erreur de connexion à MongoDB :", err));
 
