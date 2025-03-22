@@ -121,8 +121,8 @@ async function clearCollection() {
     }
 }
 
-clearCollection();
-createFilm()
+// clearCollection();
+// createFilm()
 
 module.exports = {
     getFilms,
