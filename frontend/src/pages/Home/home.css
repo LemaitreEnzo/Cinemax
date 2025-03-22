@@ -76,3 +76,21 @@
     color: var(--grey-color);
     font-size: var(--small-font-size);
 }
+
+
+.movies {
+    background-color: var(--body-color1);
+    color: var(--text-color);
+}
+
+.movies h1 {
+    font-size: var(--biggest-font);
+    font-weight: normal;
+    letter-spacing: -1px;
+    margin-bottom: 5rem;
+    text-align: center;
+}
+
+.swiper-slide {
+    cursor: grab;
+}
