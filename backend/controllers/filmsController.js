@@ -1,41 +1,8 @@
 const Film = require('../models/Film');
-const fetch = require('node-fetch');
-
-const API_KEY = 'e1cf9a9a248b7e3c0190bee2623c9b47'
-
-// Fonction pour récupérer les films
-const fetchMovies = async () => {
-    try {
-        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?language=fr-FR&sort_by=popularity.desc&api_key=${API_KEY}`, {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-            },
-        });
-        const data = await response.json();
-
-        // Récupérer les 50 premiers films
-        return data.results.slice(0, 50);
-    } catch (err) {
-        console.error("Erreur lors de la récupération des films :", err.message);
-        throw new Error("Impossible de récupérer les films.");
-    }
-};
-
-const fetchGenresMapping = async () => {
-    const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=fr-FR`;
-    const response = await fetch(genreUrl, {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-        },
-    });
-    const data = await response.json();
-    return data.genres.reduce((map, genre) => {
-        map[genre.id] = genre.name;
-        return map;
-    }, {});
-};
+const {
+    fetchGenresMapping,
+    fetchMovies
+} = require('../functions/functions');
 
 // Récupérer tous les films
 const getFilms = async (req, res) => {
@@ -71,16 +38,23 @@ const createFilm = async () => {
         const movies = await fetchMovies();
         const genresMap = await fetchGenresMapping();
 
+        // URL de base pour les images TMDB
+        const imageBaseUrl = "https://image.tmdb.org/t/p/w500"; // Changez la taille si nécessaire
+
         for (const movie of movies) {
-            const existingFilm = await Film.findOne({ title: movie.title, releaseYear: movie.release_date ? parseInt(movie.release_date.split('-')[0]) : null});
+            const existingFilm = await Film.findOne({
+                title: movie.title,
+                releaseYear: movie.release_date ? parseInt(movie.release_date.split('-')[0]) : null
+            });
 
             if (!existingFilm) {
                 const genreNames = movie.genre_ids.map(id => genresMap[id] || 'Inconnu').join(', ');
 
                 const newFilm = new Film({
                     title: movie.title,
-                    genre: genreNames? genreNames: "Genre indisponible.",
+                    genre: genreNames ? genreNames : "Genre indisponible.",
                     description: movie.overview ? movie.overview : "Description indisponible.", 
+                    image: movie.poster_path ? `${imageBaseUrl}${movie.poster_path}` : "Aucune image", // Construire l'URL de l'image complète
                     duration: movie.runtime || 0,
                     releaseYear: movie.release_date ? parseInt(movie.release_date.split('-')[0]) : null,
                 });
@@ -97,6 +71,7 @@ const createFilm = async () => {
         console.error("Erreur lors de l'insertion des films dans la base de données :", err.message);
     }
 };
+
 
 
 
@@ -136,6 +111,18 @@ const deleteFilm = async (req, res) => {
         res.status(500).json({ error: 'Erreur interne du serveur' });
     }
 };
+
+async function clearCollection() {
+    try {
+        await Film.deleteMany({}); // Supprime tous les documents de la collection "films"
+        console.log('Tous les documents ont été supprimés.');
+    } catch (error) {
+        console.error('Erreur lors de la suppression des documents :', error);
+    }
+}
+
+// clearCollection();
+// createFilm()
 
 module.exports = {
     getFilms,
