@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const FilmRoutes = require('./routes/filmsRouter');
+const usersRouter = require('./routes/usersRouter');
 const cors = require('cors');
 
 require('dotenv').config();
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(FilmRoutes);
+app.use(usersRouter);
 
 // Routes
 app.get('/home', (req, res) => {
