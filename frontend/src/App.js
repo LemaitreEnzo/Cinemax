@@ -9,8 +9,8 @@ import Pricing from './pages/Pricing/Pricing';
 
 function SignupForm() {
     const [formData, setFormData] = useState({
-        name: '',
         lastname: '',
+        firstname: '',
         email: '',
         password: '',
     });
@@ -39,7 +39,7 @@ function SignupForm() {
             } else {
                 setSuccessMessage('Compte créé avec succès !');
                 setErrorMessage('');
-                setFormData({ name: '', lastname: '', email: '', password: '' });
+                setFormData({ lastname: '', firstname: '', email: '', password: '' });
             }
         } catch (error) {
             setErrorMessage('Erreur de connexion au serveur.');
@@ -55,8 +55,8 @@ function SignupForm() {
                     Nom :
                     <input
                         type="text"
-                        name="name"
-                        value={formData.name}
+                        name="lastname"
+                        value={formData.lastname}
                         onChange={handleChange}
                         required
                     />
@@ -66,8 +66,8 @@ function SignupForm() {
                     Prénom :
                     <input
                         type="text"
-                        name="lastname"
-                        value={formData.lastname}
+                        name="firstname"
+                        value={formData.firstname}
                         onChange={handleChange}
                         required
                     />
@@ -96,6 +96,72 @@ function SignupForm() {
                 </label>
                 <br />
                 <button type="submit">Créer un compte</button>
+            </form>
+            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+        </div>
+    );
+}
+
+function LoginForm() {
+    const [user, setUser] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await fetch('http://localhost:5001/api/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }), 
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setErrorMessage(data.error || 'Une erreur est survenue lors de la connexion.');
+            } else {
+                setSuccessMessage('Connexion réussie !');
+                setErrorMessage('');
+                setUser(data.user);
+
+                console.log('Données utilisateur :', user);
+            }
+        } catch (error) {
+            setErrorMessage('Impossible de se connecter au serveur.');
+            console.error(error);
+        }
+    };
+
+    return (
+        <div>
+            <h1>Connexion</h1>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Email :
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
+                <label>
+                    Mot de passe :
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
+                <button type="submit">Se connecter</button>
             </form>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
@@ -137,6 +203,7 @@ function App() {
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/signup" element={<SignupForm />} />
+                <Route path="/login" element={<LoginForm />} />
             </Routes>
         </Router>
     );

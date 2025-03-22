@@ -66,10 +66,33 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: 'Email invalide' });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Mot de passe incorrect' });
+        }
+
+        res.status(200).json({
+            message: 'Connexion réussie !',
+            user: { id: user._id, firstname: user.firstname, lastname: user.lastname, email: user.email },
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Erreur lors de la connexion.' });
+    }
+};
+
 module.exports = {
     createUser,
     getAllUsers,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    login
 }
