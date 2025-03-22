@@ -1,0 +1,78 @@
+.home {
+    background-image: url(../../../public/uploads/images/home-bg.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 90vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home__container {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    color: var(--text-color);
+}
+
+.home__presentation,
+.home__img {
+    width: 100%;
+}
+
+.home__presentation .home__presentation__subtitle {
+    font-size: var(--h2-font-size);
+    margin-bottom: 1rem;
+}
+
+.home__presentation .home__presentation__title {
+    font-size: var(--biggest-font);
+    font-weight: normal;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+}
+
+.home__presentation .home__presentation__description {
+    margin-bottom: 2rem;
+    color: var(--grey-color);
+}
+
+.home__presentation .home__presentation__buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 3rem;
+}
+
+.home__img {
+    display: flex;
+    justify-content: center;
+}
+
+.home__img img {
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home__presentation .home__presentation__numbers {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.home__presentation .home__presentation__numbers div h2 {
+    margin-bottom: .5rem;
+    font-weight: var(--font-medium);
+}
+
+.home__presentation .home__presentation__numbers div p {
+    color: var(--grey-color);
+    font-size: var(--small-font-size);
+}
