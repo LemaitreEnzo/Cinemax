@@ -191,13 +191,11 @@ function App() {
         fetchData();
     }, []);
 
-    console.log(genres);
-
     return (
         <Router>
             <Nav />
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home movies={data} />} />
                 <Route path="/categories" element={<Categories />} />
                 {/* <Route path="/profile/:id" element={<Profile />} /> */}
                 <Route path="/pricing" element={<Pricing />} />
