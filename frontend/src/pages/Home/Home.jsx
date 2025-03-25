@@ -4,6 +4,7 @@ import Button from "../../components/Button/Button";
 import { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 import CardMovie from "../../components/CardMovie/CardMovie";
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/swiper-bundle.css'; // Assure-toi d'importer cette ligne pour avoir le CSS complet de Swiper
@@ -64,7 +65,7 @@ const Home = ({ movies }) => {
                                 color="#fff"
                                 border="1px solid #fff"
                             >
-                                S'abonner
+                                Nous rejoindre
                             </Button>
                         </div>
                         <div className="home__presentation__numbers">
@@ -93,10 +94,14 @@ const Home = ({ movies }) => {
                 <div className="movies__container">
                     {/* Configurer correctement Swiper */}
                     <Swiper
+                        modules={[Navigation, Pagination, Scrollbar, A11y]}
                         spaceBetween={50}   // Espace entre les slides
                         slidesPerView={3}  // Nombre de slides visibles
-                        onSlideChange={() => console.log('slide change')}
+                        navigation
+                        pagination={{ clickable: true }}
+                        scrollbar={{ draggable: true }}
                         onSwiper={(swiper) => console.log(swiper)}
+                        onSlideChange={() => console.log('slide change')}
                         breakpoints={{
                             640: { slidesPerView: 1 }, // 1 slide visible à partir de 640px
                             768: { slidesPerView: 3 }, // 2 slides visibles à partir de 768px

@@ -82,7 +82,7 @@ const SignInUp = ({ setUser }) => {
                         <Components.Input type='email' name='email' placeholder='Email' value={formData.email} onChange={handleChange} required />
                         <Components.Input type='password' name='password' placeholder='Mot de passe' value={formData.password} onChange={handleChange} required />
                         <Components.Button type='submit'>S'inscrire</Components.Button>
-                        {message.text && <p style={{ color: message.type === 'error' ? 'red' : 'green' }}>{message.text}</p>}
+                        {message.text && <p style={{ marginTop: "2rem", borderColor: message.type === 'error' ? '#f5c6cb' : '#c3e6cb', color: message.type === 'error' ? '#721c24' : '#155724', backgroundColor: message.type === 'error' ? '#f8d7da' : '#d4edda', borderRadius: ".25rem", padding: ".75rem 1.25rem" }}>{message.text}</p>}
                     </Components.Form>
                 </Components.SignUpContainer>
 
@@ -93,7 +93,7 @@ const SignInUp = ({ setUser }) => {
                         <Components.Input type='password' placeholder='Mot de passe' value={password} onChange={(e) => setPassword(e.target.value)} required />
                         <Components.Anchor href='#'>Mot de passe oublié ?</Components.Anchor>
                         <Components.Button type='submit'>Se connecter</Components.Button>
-                        {message.text && <p style={{ color: message.type === 'error' ? 'red' : 'green' }}>{message.text}</p>}
+                        {message.text && <p style={{ marginTop: "2rem", borderColor: message.type === 'error' ? '#f5c6cb' : '#c3e6cb', color: message.type === 'error' ? '#721c24' : '#155724', backgroundColor: message.type === 'error' ? '#f5c6cb' : '#d4edda', borderRadius: ".25rem", padding: ".75rem 1.25rem" }}>{message.text}</p>}
                     </Components.Form>
                 </Components.SignInContainer>
 

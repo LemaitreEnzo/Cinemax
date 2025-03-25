@@ -34,14 +34,6 @@ function App() {
     const [genres, setGenres] = useState([]);
 
     useEffect(() => {
-        if (user) {
-            localStorage.setItem("user", JSON.stringify(user));
-        } else {
-            localStorage.removeItem("user");
-        }
-    }, [user]);
-
-    useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch('http://localhost:5001/api/films');
@@ -58,6 +50,16 @@ function App() {
         };
         fetchData();
     }, []);
+    
+    useEffect(() => {
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            localStorage.removeItem("user");
+        }
+    }, [user]);
+
+
 
     return (
         <Router>
