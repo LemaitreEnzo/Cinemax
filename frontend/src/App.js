@@ -21,9 +21,95 @@ function Layout({ user, setUser, data }) {
                 <Route path="/about" element={<About />} />
                 <Route path="/register" element={<SignInUp setUser={setUser} />} />
                 <Route path="/login" element={<SignInUp setUser={setUser} />} />
+                <Route path="/favorites" element={<ToggleFavorite />} />
             </Routes>
         </>
     );
+}
+
+function ToggleFavorite() {
+  const [userId, setUserId] = useState("");
+  const [filmId, setFilmId] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
+
+  const handleAddFavorite = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5001/api/users/${userId}/favorites`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            filmId,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de l'ajout aux favoris.");
+      }
+
+      const data = await response.json();
+      setResponseMessage(data.message || "Film ajouté aux favoris !");
+    } catch (error) {
+      setResponseMessage(error.message || "Une erreur est survenue.");
+      console.error(error);
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+      <h1>Ajouter un film en favori</h1>
+      <div style={{ marginBottom: "10px" }}>
+        <label>
+          <strong>User ID :</strong>
+          <input
+            type="text"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            style={{ marginLeft: "10px", padding: "5px" }}
+          />
+        </label>
+      </div>
+      <div style={{ marginBottom: "10px" }}>
+        <label>
+          <strong>Film ID :</strong>
+          <input
+            type="text"
+            value={filmId}
+            onChange={(e) => setFilmId(e.target.value)}
+            style={{ marginLeft: "10px", padding: "5px" }}
+          />
+        </label>
+      </div>
+      <button
+        onClick={handleAddFavorite}
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "#007BFF",
+          color: "#FFFFFF",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        Ajouter en favori
+      </button>
+      {responseMessage && (
+        <div
+          style={{
+            marginTop: "20px",
+            color: responseMessage.includes("Erreur") ? "red" : "green",
+          }}
+        >
+          <strong>{responseMessage}</strong>
+        </div>
+      )}
+    </div>
+  );
 }
 
 function App() {
