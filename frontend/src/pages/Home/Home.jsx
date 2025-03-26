@@ -36,7 +36,7 @@ const AnimatedNumber = ({ target, duration = 5000 }) => {
     return <h2>{count.toLocaleString()}+</h2>;
 };
 
-const Home = ({ movies }) => {
+const Home = ({ movies, user }) => {
     return (
         <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -110,7 +110,13 @@ const Home = ({ movies }) => {
                     >
                         {movies ? movies.map((movie) => (
                             <SwiperSlide key={movie.id}>  {/* Mettez la clé ici sur SwiperSlide */}
-                                <CardMovie title={movie.title} image={movie.image} />
+                                <CardMovie
+                                    key={movie._id}
+                                    id={movie._id}
+                                    title={movie.title}
+                                    image={movie.image}
+                                    user={user}
+                                />
                             </SwiperSlide>
                         )) : <p>Loading...</p>}
                     </Swiper>
