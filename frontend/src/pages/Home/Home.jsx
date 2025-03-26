@@ -3,8 +3,12 @@ import './home.css';
 import Button from "../../components/Button/Button";
 import { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
+import CardMovie from "../../components/CardMovie/CardMovie";
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-const AnimatedNumber = ({ target, duration =5000 }) => {
+import 'swiper/swiper-bundle.css'; // Assure-toi d'importer cette ligne pour avoir le CSS complet de Swiper
+
+const AnimatedNumber = ({ target, duration = 5000 }) => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
@@ -30,7 +34,8 @@ const AnimatedNumber = ({ target, duration =5000 }) => {
 
     return <h2>{count.toLocaleString()}+</h2>;
 };
-const Home = () => {
+
+const Home = ({ movies }) => {
     return (
         <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -82,9 +87,33 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            <div className="movies section">
+                <h1>The Most Popular<br />Movies 2024</h1>
+
+                <div className="movies__container">
+                    {/* Configurer correctement Swiper */}
+                    <Swiper
+                        spaceBetween={50}   // Espace entre les slides
+                        slidesPerView={3}  // Nombre de slides visibles
+                        onSlideChange={() => console.log('slide change')}
+                        onSwiper={(swiper) => console.log(swiper)}
+                        breakpoints={{
+                            640: { slidesPerView: 1 }, // 1 slide visible à partir de 640px
+                            768: { slidesPerView: 3 }, // 2 slides visibles à partir de 768px
+                            1024: { slidesPerView: 4 }, // 3 slides visibles à partir de 1024px
+                        }}
+                    >
+                        {movies ? movies.map((movie) => (
+                            <SwiperSlide key={movie.id}>  {/* Mettez la clé ici sur SwiperSlide */}
+                                <CardMovie title={movie.title} image={movie.image} />
+                            </SwiperSlide>
+                        )) : <p>Loading...</p>}
+                    </Swiper>
+                </div>
+            </div>
         </motion.div>
+    );
+};
 
-    )
-}
+export default Home;
 
-export default Home

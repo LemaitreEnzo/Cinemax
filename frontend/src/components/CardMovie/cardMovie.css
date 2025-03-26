@@ -1,0 +1,28 @@
+.card__movie {
+    width: 100%;
+    position: relative;
+}
+
+.card__img {
+    width: 100%;
+    position: relative;
+}
+
+.card__img img {
+    border-radius: 20px;
+}
+
+.card__infos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.card__status {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1;
+}

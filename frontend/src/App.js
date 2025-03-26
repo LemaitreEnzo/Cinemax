@@ -283,9 +283,6 @@ function App() {
     fetchData();
   }, []);
 
-  console.log(genres);
-  console.log(data);
-
   return (
     <>
       <Router>
