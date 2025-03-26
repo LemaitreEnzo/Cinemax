@@ -1,9 +1,41 @@
-import React from 'react';
-import { MdBookmarkBorder } from "react-icons/md";
+import React, { useState, useEffect } from 'react';
+import { MdBookmarkBorder, MdBookmark } from "react-icons/md";
 import Button from '../Button/Button';
-import './cardMovie.css'
+import './cardMovie.css';
 
-const CardMovie = ({ title, image }) => {
+const CardMovie = ({ title, image, id, user }) => {
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+        if (user && user.favorites.includes(id)) {
+            setIsFavorite(true);
+        }
+    }, [user, id]);
+
+    const handleFavoriteClick = async () => {
+        if (!user) {
+            window.location.href = "/login"; // Redirige vers la page de connexion si non connecté
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:5001/api/favorite", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: user._id, filmId: id })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                setIsFavorite(!isFavorite);
+            } else {
+                console.error(data.message);
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'ajout aux favoris :", error);
+        }
+    };
+
     return (
         <div className='card__movie'>
             <div className="card__status">
@@ -30,7 +62,8 @@ const CardMovie = ({ title, image }) => {
                         backgroundColor="#fff"
                         color="#000"
                         border="1px solid #fff"
-                        icon={MdBookmarkBorder}
+                        icon={isFavorite ? MdBookmark : MdBookmarkBorder}
+                        onClick={handleFavoriteClick}
                     />
                 </div>
             </div>
@@ -38,5 +71,4 @@ const CardMovie = ({ title, image }) => {
     );
 };
 
-
-export default CardMovie
+export default CardMovie;
