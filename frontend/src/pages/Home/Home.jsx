@@ -1,10 +1,17 @@
 import React from "react";
 import './home.css';
 import Button from "../../components/Button/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { motion } from 'framer-motion';
+import CardMovie from "../../components/CardMovie/CardMovie";
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { UserContext } from "../../context/UserContext";
 
-const AnimatedNumber = ({ target, duration =5000 }) => {
+import 'swiper/swiper-bundle.css'; // Assure-toi d'importer cette ligne pour avoir le CSS complet de Swiper
+
+
+const AnimatedNumber = ({ target, duration = 5000 }) => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
@@ -30,7 +37,11 @@ const AnimatedNumber = ({ target, duration =5000 }) => {
 
     return <h2>{count.toLocaleString()}+</h2>;
 };
-const Home = () => {
+
+const Home = ({ movies }) => {
+    const { user } = useContext(UserContext);
+    console.log(user);
+    
     return (
         <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -59,7 +70,7 @@ const Home = () => {
                                 color="#fff"
                                 border="1px solid #fff"
                             >
-                                S'abonner
+                                Nous rejoindre
                             </Button>
                         </div>
                         <div className="home__presentation__numbers">
@@ -82,9 +93,44 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            <div className="movies section">
+                <h1>The Most Popular<br />Movies 2024</h1>
+
+                <div className="movies__container">
+                    {/* Configurer correctement Swiper */}
+                    <Swiper
+                        modules={[Navigation, Pagination, Scrollbar, A11y]}
+                        spaceBetween={50}   // Espace entre les slides
+                        slidesPerView={3}  // Nombre de slides visibles
+                        navigation
+                        pagination={{ clickable: true }}
+                        scrollbar={{ draggable: true }}
+                        onSwiper={(swiper) => console.log(swiper)}
+                        onSlideChange={() => console.log('slide change')}
+                        breakpoints={{
+                            640: { slidesPerView: 1 }, // 1 slide visible à partir de 640px
+                            768: { slidesPerView: 3 }, // 2 slides visibles à partir de 768px
+                            1024: { slidesPerView: 4 }, // 3 slides visibles à partir de 1024px
+                        }}
+                    >
+                        {movies ? movies.map((movie) => (
+                            <SwiperSlide key={movie.id}>  {/* Mettez la clé ici sur SwiperSlide */}
+                                <CardMovie
+                                    key={movie._id}
+                                    id={movie._id}
+                                    title={movie.title}
+                                    image={movie.image}
+                                    user={user}
+                                />
+                            </SwiperSlide>
+                        )) : <p>Loading...</p>}
+                    </Swiper>
+                </div>
+            </div>
         </motion.div>
+    );
+};
 
-    )
-}
 
-export default Home
+export default Home;
+

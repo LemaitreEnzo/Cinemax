@@ -5,6 +5,7 @@ const FilmRoutes = require("./routes/filmsRouter");
 const usersRouter = require("./routes/usersRouter");
 const cors = require("cors");
 
+
 require("dotenv").config(); //Prend les variables du fichier .env
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
