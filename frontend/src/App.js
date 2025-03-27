@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
 import Home from './pages/Home/Home';
 import About from './pages/About/About';
@@ -7,10 +7,20 @@ import Categories from './pages/Categories/categories';
 import Nav from './layouts/Nav/Nav';
 import Pricing from './pages/Pricing/Pricing';
 import SignInUp from './pages/SignInUp/SignInUp';
+import Favorites from './pages/Favorites/Favorites';
+import Footer from './layouts/Footer/Footer';
 
 function Layout({ user, setUser, data }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const hideNav = location.pathname === "/login" || location.pathname === "/register";
+
+  useEffect(() => {
+    // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
+    if (!user && location.pathname !== "/login" && location.pathname !== "/register") {
+      navigate("/login");
+    }
+  }, [user, location, navigate]);
 
   return (
     <>
@@ -22,7 +32,9 @@ function Layout({ user, setUser, data }) {
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<SignInUp setUser={setUser} />} />
         <Route path="/login" element={<SignInUp setUser={setUser} />} />
+        <Route path="/favorites" element={<Favorites user={user} />} />
       </Routes>
+      <Footer />
     </>
   );
 }
