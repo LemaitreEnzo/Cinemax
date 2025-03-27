@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 import * as Components from './Components';
 import './signinup.css'
 
@@ -13,9 +14,9 @@ const SignInUp = ({ setUser }) => {
     });
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { updateUser } = useContext(UserContext);
     const [message, setMessage] = useState({ type: '', text: '' });
     const navigate = useNavigate();
-    const location = useLocation();
 
     useEffect(() => {
         navigate(signIn ? '/login' : '/register');
@@ -50,22 +51,22 @@ const SignInUp = ({ setUser }) => {
     const handleSignIn = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:5001/api/users/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+            const response = await fetch("http://localhost:5001/api/users/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
             });
+
             const data = await response.json();
-            if (!response.ok) {
-                setMessage({ type: 'error', text: data.error || 'Erreur de connexion.' });
-            } else {
-                setMessage({ type: 'success', text: 'Connexion réussie !' });
-                setUser(data.user); // Met à jour l'état global
+
+            if (response.ok) {
+                updateUser(data.user); // Met à jour l'utilisateur dans le contexte
                 navigate("/");
+            } else {
+                console.error("Erreur de connexion:", data.error);
             }
         } catch (error) {
-            setMessage({ type: 'error', text: 'Impossible de se connecter au serveur.' });
-            console.error(error);
+            console.error("Erreur serveur:", error);
         }
     };
 

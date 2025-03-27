@@ -20,6 +20,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(FilmRoutes);
+app.use(usersRouter);
 
 app.post("/create-checkout-session", async (req, res) => {
   try {

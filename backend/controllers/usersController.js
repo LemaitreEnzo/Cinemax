@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const User = require("../models/User");
 const Film = require("../models/Film");
 const bcrypt = require("bcrypt");
@@ -112,8 +113,90 @@ const login = async (req, res) => {
 
 // Ajouter un film aux favoris
 const addFavorite = async (req, res) => {
+
   try {
-    const { userId, filmId } = req.body;
+    const userId = req.body.userId;
+    const filmId = req.body.id;
+
+    console.log("Requête reçue pour ajouter un favori :", userId, filmId);
+    // Vérification des ID
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(filmId)) {
+      return res.status(400).json({ message: "ID utilisateur ou film invalide" });
+    }
+
+    // Vérifier si l'utilisateur et le film existent
+    const user = await User.findById(userId);
+    const film = await Film.findById(filmId);
+
+    console.log(user, film)
+
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    if (!film) {
+      return res.status(404).json({ message: "Film non trouvé" });
+    }
+
+    // Vérifier si le film est déjà en favoris
+    if (user.favorites.some(fav => fav.toString() === filmId)) {
+      return res.status(400).json({ message: "Le film est déjà en favoris" });
+    }
+
+    // Ajouter le film aux favoris et sauvegarder
+    user.favorites.push(film);
+    await user.save();
+
+    res.status(201).json({
+      message: "Film ajouté aux favoris avec succès",
+      favorites: user.favorites,
+    });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du favori :", error);
+    res.status(500).json({ error: "Erreur interne du serveur" });
+  }
+};
+
+// Récupérer les films favoris
+const getFavorites = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Vérifie si l'ID est valide
+    if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ message: "ID utilisateur invalide." });
+    }
+
+    const user = await User.findById(userId).populate("favorites");
+
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    // Vérifie que favorites est bien un tableau
+    if (!Array.isArray(user.favorites)) {
+      return res.status(500).json({ message: "Erreur lors de la récupération des favoris." });
+    }
+
+    res.status(200).json({ favorites: user.favorites.length > 0 ? user.favorites : [] });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des favoris :", error.message);
+    res.status(500).json({ error: "Erreur interne du serveur" });
+  }
+};
+
+
+const removeFavorite = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const filmId = req.body.id;
+
+    console.log("Requête reçue pour retirer un favori :", userId, filmId);
+    
+    // Vérification des ID
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(filmId)) {
+      return res.status(400).json({ message: "ID utilisateur ou film invalide" });
+    }
 
     // Vérifier si l'utilisateur et le film existent
     const user = await User.findById(userId);
@@ -127,65 +210,13 @@ const addFavorite = async (req, res) => {
       return res.status(404).json({ message: "Film non trouvé" });
     }
 
-    // Vérifier si le film est déjà en favoris
-    if (user.favorites.includes(filmId)) {
-      return res.status(400).json({ message: "Le film est déjà en favoris" });
+    // Vérifier si le film est déjà dans les favoris
+    if (!user.favorites.some(fav => fav.toString() === filmId)) {
+      return res.status(400).json({ message: "Le film n'est pas dans les favoris" });
     }
 
-    // Ajouter le film aux favoris
-    user.favorites.push(filmId);
-    await user.save();
-
-    res.status(201).json({
-      message: "Film ajouté aux favoris avec succès",
-      favorites: user.favorites,
-    });
-  } catch (error) {
-    console.error("Erreur lors de l'ajout du favori :", error.message);
-    res.status(500).json({ error: "Erreur interne du serveur" });
-  }
-};
-
-// Récupérer les films favoris
-const getFavorites = async (req, res) => {
-  try {
-    const { userId } = req.params;
-
-    const user = await User.findById(userId).populate("favorites");
-
-    if (!user) {
-      return res.status(404).json({ message: "Utilisateur non trouvé" });
-    }
-
-    res.status(200).json({ favorites: user.favorites });
-  } catch (error) {
-    console.error(
-      "Erreur lors de la récupération des favoris :",
-      error.message
-    );
-    res.status(500).json({ error: "Erreur interne du serveur" });
-  }
-};
-
-// Supprimer un film des favoris
-const removeFavorite = async (req, res) => {
-  try {
-    const { userId, filmId } = req.body;
-
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: "Utilisateur non trouvé" });
-    }
-
-    if (!user.favorites.includes(filmId)) {
-      return res
-        .status(400)
-        .json({ message: "Le film n'est pas dans les favoris" });
-    }
-
-    // Supprimer le film des favoris
-    user.favorites = user.favorites.filter((id) => id.toString() !== filmId);
+    // Retirer le film des favoris et sauvegarder
+    user.favorites = user.favorites.filter(fav => fav.toString() !== filmId);
     await user.save();
 
     res.status(200).json({
@@ -197,6 +228,8 @@ const removeFavorite = async (req, res) => {
     res.status(500).json({ error: "Erreur interne du serveur" });
   }
 };
+
+
 
 module.exports = {
   createUser,
