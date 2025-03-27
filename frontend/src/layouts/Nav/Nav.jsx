@@ -12,6 +12,7 @@ const Nav = ({ user, setUser }) => {
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem("user");
+        window.location.href = "/login"
     };
 
 
@@ -59,6 +60,7 @@ const Nav = ({ user, setUser }) => {
                                 <p className="username">{user.firstname} {user.lastname}</p>
                                 <p className="email">{user.email}</p>
                                 <Link to="/profile" className="button-profil">Mon Profil</Link>
+                                <Link to="/favorites" className="button-profil">Liste des favoris</Link>
                                 <button onClick={handleLogout} className="button-logout">Déconnexion</button>
                             </div>
                         )}

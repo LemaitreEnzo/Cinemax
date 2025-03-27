@@ -7,6 +7,7 @@ import CardMovie from "../../components/CardMovie/CardMovie";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { UserContext } from "../../context/UserContext";
+import ScrollButton from "../../components/ScrollButton/ScrollButton";
 
 import 'swiper/swiper-bundle.css'; // Assure-toi d'importer cette ligne pour avoir le CSS complet de Swiper
 
@@ -127,6 +128,7 @@ const Home = ({ movies }) => {
                     </Swiper>
                 </div>
             </div>
+            <ScrollButton />
         </motion.div>
     );
 };

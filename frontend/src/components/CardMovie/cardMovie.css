@@ -10,6 +10,11 @@
 
 .card__img img {
     border-radius: 20px;
+    transition: all .3s;
+}
+
+.card__img img:hover {
+    transform: scale(1.05);
 }
 
 .card__infos {
