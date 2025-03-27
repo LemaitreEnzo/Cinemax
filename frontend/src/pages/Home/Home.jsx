@@ -1,13 +1,15 @@
 import React from "react";
 import './home.css';
 import Button from "../../components/Button/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { motion } from 'framer-motion';
 import CardMovie from "../../components/CardMovie/CardMovie";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { UserContext } from "../../context/UserContext";
 
 import 'swiper/swiper-bundle.css'; // Assure-toi d'importer cette ligne pour avoir le CSS complet de Swiper
+
 
 const AnimatedNumber = ({ target, duration = 5000 }) => {
     const [count, setCount] = useState(0);
@@ -36,7 +38,10 @@ const AnimatedNumber = ({ target, duration = 5000 }) => {
     return <h2>{count.toLocaleString()}+</h2>;
 };
 
-const Home = ({ movies, user }) => {
+const Home = ({ movies }) => {
+    const { user } = useContext(UserContext);
+    console.log(user);
+    
     return (
         <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -125,6 +130,7 @@ const Home = ({ movies, user }) => {
         </motion.div>
     );
 };
+
 
 export default Home;
 
