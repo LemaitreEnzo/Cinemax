@@ -1,6 +1,7 @@
 import React from "react";
 import './about.css';
 import { motion } from 'framer-motion';
+import ScrollButton from "../../components/ScrollButton/ScrollButton"; 
 
 const About = () => {
     return (
@@ -13,8 +14,9 @@ const About = () => {
             <div className="about">
                 <h1>About</h1>
             </div>
+            <ScrollButton />
         </motion.div>
-
+        
     )
 }
 

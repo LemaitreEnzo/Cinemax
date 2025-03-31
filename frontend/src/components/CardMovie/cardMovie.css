@@ -10,6 +10,11 @@
 
 .card__img img {
     border-radius: 20px;
+    transition: all .3s;
+}
+
+.card__img img:hover {
+    transform: scale(1.05);
 }
 
 .card__infos {
@@ -25,4 +30,9 @@
     top: 1rem;
     left: 1rem;
     z-index: 1;
+}
+
+.card__link {
+    text-decoration: none;
+    color: inherit;
 }

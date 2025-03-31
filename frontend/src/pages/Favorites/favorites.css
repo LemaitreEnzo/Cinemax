@@ -1,0 +1,35 @@
+.favorites {
+    background-color: var(--body-color1);
+    color: var(--text-color);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.favorites h1 {
+    font-size: var(--biggest-font);
+    font-weight: normal;
+    letter-spacing: -1px;
+    margin-bottom: 5rem;
+    text-align: center;
+}
+
+.favorites-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin: 30px;
+}
+
+.favorites .card__movie {
+    width: 100%;
+}
+
+.favorites .card__img img {
+    width: 100%;
+    height: auto;
+}

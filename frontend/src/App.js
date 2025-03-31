@@ -12,6 +12,10 @@ import Categories from "./pages/Categories/categories";
 import Home from "./pages/Home/Home";
 import Pricing from "./pages/Pricing/Pricing";
 import SignInUp from "./pages/SignInUp/SignInUp";
+import Favorites from './pages/Favorites/Favorites';
+import Footer from './layouts/Footer/Footer';
+import DetailMovie from './pages/DetailMovie/DetailMovie';
+import NotFound from './pages/Notfound/NotFound';
 
 function Layout({ user, setUser, data, genres }) {
   const location = useLocation();
@@ -33,6 +37,9 @@ function Layout({ user, setUser, data, genres }) {
           path="/films-by-category"
           element={<FilmsByCategory genres={genres} data={data} />}
         />
+        <Route path="/favorites" element={<Favorites user={user} />} />
+        <Route path="/films/:id" element={<DetailMovie user={user} />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
@@ -77,8 +84,6 @@ const FilmSearch = ({ data }) => {
       console.error(error);
     } finally {
       setLoading(false);
-    }
-  };
 
   // Gérer les changements de l'utilisateur
   const handleTitleChange = (e) => {
@@ -211,7 +216,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/films");
+        const response = await fetch('http://localhost:5001/api/films');
         const films = await response.json();
         setData(films);
         const uniqueGenres = [
@@ -224,7 +229,7 @@ function App() {
 
         setGenres(uniqueGenres);
       } catch (error) {
-        console.error("Erreur lors de la récupération des films :", error);
+        console.error('Erreur lors de la récupération des films :', error);
       }
     };
     fetchData();
