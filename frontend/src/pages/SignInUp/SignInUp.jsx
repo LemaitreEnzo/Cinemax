@@ -60,6 +60,12 @@ const SignInUp = ({ setUser }) => {
             const data = await response.json();
 
             if (response.ok) {
+                updateUser(data.user); // Met à jour l'utilisateur dans le contexte
+                navigate("/");
+            } else {
+                console.error("Erreur de connexion:", data.error);
+            }
+        } catch (error) {
                 updateUser(data.user);
                 window.location.href = "/"
             } else {
