@@ -1,33 +1,47 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { NavLink, useLocation } from 'react-router-dom';
 import './nav.css';
 import Button from "../../components/Button/Button";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { FaUserCircle } from "react-icons/fa";
+import { CiMap } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 
 const Nav = ({ user, setUser }) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const location = useLocation();
+
+    useEffect(() => {
+        // Simule un chargement de 1.5 seconde
+        const timer = setTimeout(() => setLoading(false), 1500);
+        return () => clearTimeout(timer);
+    }, []);
 
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem("user");
-        window.location.href = "/login"
+        window.location.href = "/login";
     };
 
+    if (loading) {
+        return (
+            <div className="spinner-container">
+                <div className="spinner"></div>
+            </div>
+        );
+    }
 
     return (
         <nav className="nav">
             <div className="nav__list">
                 <div className="nav__img">
-                    <Link to="/" className="link"><img src="/uploads/images/logo.png" alt="" /></Link>
+                    <NavLink to="/" className="link img"><img src="/uploads/images/logo.png" alt="" /></NavLink>
                 </div>
                 <div className="nav__line"></div>
                 <div className="nav__links">
-                    <Link to="/" className="link">Accueil</Link>
-                    <Link to="/categories" className="link">Catégories</Link>
-                    <Link to="/pricing" className="link">Tarifs</Link>
-                    <Link to="/about" className="link">À propos</Link>
+                    <NavLink to="/" className="link" activeClassName="active">Accueil</NavLink>
+                    <NavLink to="/categories" className="link" activeClassName="active">Catégories</NavLink>
+                    <NavLink to="/pricing" className="link" activeClassName="active">Tarifs</NavLink>
+                    <NavLink to="/about" className="link" activeClassName="active">À propos</NavLink>
                 </div>
             </div>
 
@@ -37,7 +51,7 @@ const Nav = ({ user, setUser }) => {
                     backgroundColor="transparent"
                     color="#fff"
                     border="1px solid #fff"
-                    icon={IoMdNotificationsOutline}
+                    icon={CiMap}
                 />
 
                 {user ? (
@@ -55,19 +69,19 @@ const Nav = ({ user, setUser }) => {
                         {menuOpen && (
                             <div className="dropdown-menu">
                                 <div className="profile__img">
-                                    <span>{user.firstname[0]}</span>
+                                    <span>{user.firstname.charAt(0).toUpperCase()}</span>
                                 </div>
                                 <p className="username">{user.firstname} {user.lastname}</p>
                                 <p className="email">{user.email}</p>
-                                <Link to="/profile" className="button-profil">Mon Profil</Link>
-                                <Link to="/favorites" className="button-profil">Liste des favoris</Link>
+                                <NavLink to="/profile" className="button-profil">Mon Profil</NavLink>
+                                <NavLink to="/favorites" className="button-profil">Liste des favoris</NavLink>
                                 <button onClick={handleLogout} className="button-logout">Déconnexion</button>
                             </div>
                         )}
                     </div>
                 ) : (
                     <>
-                        <Link to="/login" style={{ color: "#fff", textDecoration: "none" }}>
+                        <NavLink to="/login" style={{ color: "#fff", textDecoration: "none" }}>
                             <Button
                                 type="text"
                                 backgroundColor="transparent"
@@ -76,9 +90,9 @@ const Nav = ({ user, setUser }) => {
                             >
                                 Se connecter
                             </Button>
-                        </Link>
+                        </NavLink>
 
-                        <Link to="/register" style={{ color: "#000", textDecoration: "none" }}>
+                        <NavLink to="/register" style={{ color: "#000", textDecoration: "none" }}>
                             <Button
                                 type="text"
                                 backgroundColor="#fff"
@@ -87,7 +101,7 @@ const Nav = ({ user, setUser }) => {
                             >
                                 S'inscrire
                             </Button>
-                        </Link>
+                        </NavLink>
                     </>
                 )}
             </div>

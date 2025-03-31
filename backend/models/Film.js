@@ -6,6 +6,7 @@ const FilmSchema = new mongoose.Schema({
   genre: { type: String, required: true },
   description: { type: String, required: true },
   image: { type: String },
+  video: {type: String},
   duration: { type: Number, required: true },
   releaseYear: { type: Number, required: true },
   dateAdded: { type: Date, default: Date.now },

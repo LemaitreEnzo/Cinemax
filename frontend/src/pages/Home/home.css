@@ -23,7 +23,7 @@
 
 .home__presentation,
 .home__img {
-    width: 100%;
+    max-width: 50%;
 }
 
 .home__presentation .home__presentation__subtitle {
@@ -56,6 +56,7 @@
 }
 
 .home__img img {
+    max-width: 450px;
     border-radius: 20px;
     margin-left: auto;
     margin-right: auto;

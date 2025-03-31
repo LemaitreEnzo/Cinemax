@@ -1,6 +1,7 @@
 import React from "react";
 import './categories.css';
 import { motion } from 'framer-motion';
+import ScrollButton from "../../components/ScrollButton/ScrollButton";
 
 const Categories = () => {
     return (
@@ -13,6 +14,7 @@ const Categories = () => {
             <div className="categories">
                 <h1>Categories</h1>
             </div>
+            <ScrollButton />
         </motion.div>
 
     )
