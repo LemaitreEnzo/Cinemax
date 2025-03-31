@@ -12,6 +12,8 @@ import Categories from "./pages/Categories/categories";
 import Home from "./pages/Home/Home";
 import Pricing from "./pages/Pricing/Pricing";
 import SignInUp from "./pages/SignInUp/SignInUp";
+import Favorites from './pages/Favorites/Favorites';
+import Footer from './layouts/Footer/Footer';
 
 function Layout({ user, setUser, data }) {
   const location = useLocation();
@@ -29,6 +31,7 @@ function Layout({ user, setUser, data }) {
         <Route path="/register" element={<SignInUp setUser={setUser} />} />
         <Route path="/login" element={<SignInUp setUser={setUser} />} />
         <Route path="/search" element={<FilmSearch data={data} />} />
+        <Route path="/favorites" element={<Favorites user={user} />} />
       </Routes>
     </>
   );
@@ -73,8 +76,6 @@ const FilmSearch = ({ data }) => {
       console.error(error);
     } finally {
       setLoading(false);
-    }
-  };
 
   // Gérer les changements de l'utilisateur
   const handleTitleChange = (e) => {
@@ -145,7 +146,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/films");
+        const response = await fetch('http://localhost:5001/api/films');
         const films = await response.json();
         setData(films);
         const uniqueGenres = [
@@ -158,7 +159,7 @@ function App() {
 
         setGenres(uniqueGenres);
       } catch (error) {
-        console.error("Erreur lors de la récupération des films :", error);
+        console.error('Erreur lors de la récupération des films :', error);
       }
     };
     fetchData();
