@@ -130,7 +130,30 @@ async function clearCollection() {
   }
 }
 
-const toggleFavourtite = () => {};
+const searchFilms = async (req, res) => {
+  try {
+    const { title } = req.query;
+
+    if (!title) {
+      return res
+        .status(400)
+        .json({ error: "Le paramètre 'title' est requis." });
+    }
+
+    // console.log("Paramètres reçus :", req.query);
+
+    const films = await Film.find({ title: { $regex: title, $options: "i" } });
+
+    if (!films || films.length === 0) {
+      return res.status(404).json({ message: "Aucun film trouvé." });
+    }
+
+    res.status(200).json(films);
+  } catch (err) {
+    console.error("Erreur lors de la recherche des films :", err.message);
+    res.status(500).json({ error: "Erreur interne du serveur." });
+  }
+};
 
 // clearCollection();
 // createFilm()
@@ -141,4 +164,5 @@ module.exports = {
   createFilm,
   updateFilm,
   deleteFilm,
+  searchFilms,
 };
