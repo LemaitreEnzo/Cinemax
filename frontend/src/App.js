@@ -13,7 +13,7 @@ import Home from "./pages/Home/Home";
 import Pricing from "./pages/Pricing/Pricing";
 import SignInUp from "./pages/SignInUp/SignInUp";
 
-function Layout({ user, setUser, data }) {
+function Layout({ user, setUser, data, genres }) {
   const location = useLocation();
   const hideNav =
     location.pathname === "/login" || location.pathname === "/register";
@@ -29,6 +29,10 @@ function Layout({ user, setUser, data }) {
         <Route path="/register" element={<SignInUp setUser={setUser} />} />
         <Route path="/login" element={<SignInUp setUser={setUser} />} />
         <Route path="/search" element={<FilmSearch data={data} />} />
+        <Route
+          path="/films-by-category"
+          element={<FilmsByCategory genres={genres} data={data} />}
+        />
       </Routes>
     </>
   );
@@ -135,6 +139,68 @@ const FilmSearch = ({ data }) => {
   );
 };
 
+const FilmsByCategory = ({ genres, data }) => {
+  const [selectedCategory, setSelectedCategory] = useState(""); // Catégorie sélectionnée
+  const [filteredFilms, setFilteredFilms] = useState([]); // Films filtrés par catégorie
+
+  // Gérer la sélection d'une catégorie
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedCategory(category);
+
+    if (category === "") {
+      setFilteredFilms(data); // Affiche tous les films si aucune catégorie n'est sélectionnée
+    } else {
+      // Filtrer les films par genre correspondant
+      const films = data.filter((film) =>
+        film.genre.toLowerCase().includes(category.toLowerCase())
+      );
+      setFilteredFilms(films);
+    }
+  };
+
+  useEffect(() => {
+    setFilteredFilms(data || []);
+  }, [data]);
+
+  return (
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+      <h1>Films par catégorie</h1>
+      <div style={{ marginBottom: "20px" }}>
+        <label>
+          <strong>Choisir une catégorie :</strong>
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            style={{ marginLeft: "10px", padding: "5px" }}
+          >
+            <option value="">Toutes les catégories</option>
+            {genres.map((genre, index) => (
+              <option key={index} value={genre}>
+                {genre}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <div>
+        {filteredFilms.length > 0 ? (
+          <ul>
+            {filteredFilms.map((film) => (
+              <li key={film._id}>
+                <strong>{film.title}</strong> - {film.releaseYear} -{" "}
+                {film.genre}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Aucun film à afficher pour cette catégorie.</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [user, setUser] = useState(() => {
     return JSON.parse(localStorage.getItem("user")) || null;
@@ -175,7 +241,7 @@ function App() {
   return (
     <UserProvider>
       <Router>
-        <Layout user={user} setUser={setUser} data={data} />
+        <Layout user={user} setUser={setUser} data={data} genres={genres} />
       </Router>
     </UserProvider>
   );

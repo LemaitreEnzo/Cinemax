@@ -29,6 +29,37 @@ const getFilm = async (req, res) => {
   }
 };
 
+const getFilmsByCategory = async (req, res) => {
+  try {
+    const { category } = req.query;
+
+    if (!category) {
+      return res
+        .status(400)
+        .json({ error: "Le paramètre 'category' est requis." });
+    }
+
+    // Utilisation de $regex pour chercher dans le champ "genre"
+    const films = await Film.find({
+      genre: { $regex: category, $options: "i" },
+    });
+
+    if (!films || films.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Aucun film trouvé pour cette catégorie." });
+    }
+
+    res.status(200).json(films);
+  } catch (err) {
+    console.error(
+      "Erreur lors de la récupération des films par catégorie :",
+      err.message
+    );
+    res.status(500).json({ error: "Erreur interne du serveur." });
+  }
+};
+
 // Créer un nouveau film
 const createFilm = async () => {
   try {
@@ -165,4 +196,5 @@ module.exports = {
   updateFilm,
   deleteFilm,
   searchFilms,
+  getFilmsByCategory,
 };
