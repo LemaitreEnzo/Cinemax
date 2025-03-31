@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { IoIosArrowDropup } from "react-icons/io";
 import "./scrollbutton.css";
 
-const ScrollProgress = () => {
+const ScrollButton = () => {
     const [scrollValue, setScrollValue] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -43,4 +43,4 @@ const ScrollProgress = () => {
     );
 };
 
-export default ScrollProgress;
+export default ScrollButton;

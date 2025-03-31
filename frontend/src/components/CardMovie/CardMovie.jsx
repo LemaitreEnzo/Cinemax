@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MdBookmarkBorder, MdBookmark } from "react-icons/md";
+import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import "./cardMovie.css";
 
@@ -44,31 +45,33 @@ const CardMovie = ({ title, image, id, user }) => {
     };
 
     return (
-        <div className="card__movie">
-            <div className="card__status">
-                <Button className="button category" type="category" backgroundColor="#fff" color="hsl(0, 93%, 42%)" border="1px solid #fff">
-                    Free
-                </Button>
-            </div>
-            <div className="card__img">
-                <img src={image} alt={title} />
-            </div>
-            <div className="card__infos">
-                <div className="card__title">
-                    <h2>{title}</h2>
+        <Link to={`/films/${id}`} className="card__link">
+            <div className="card__movie">
+                <div className="card__status">
+                    <Button className="button category" type="category" backgroundColor="#fff" color="hsl(0, 93%, 42%)" border="1px solid #fff">
+                        Free
+                    </Button>
                 </div>
-                <div className="card__icon__favory">
-                    <Button
-                        type="icon"
-                        backgroundColor="#fff"
-                        color="#000"
-                        border="1px solid #fff"
-                        icon={isFavorite ? MdBookmark : MdBookmarkBorder}
-                        onClick={handleToggleFavorite}
-                    />
+                <div className="card__img">
+                    <img src={image} alt={title} />
+                </div>
+                <div className="card__infos">
+                    <div className="card__title">
+                        <h2>{title}</h2>
+                    </div>
+                    <div className="card__icon__favory">
+                        <Button
+                            type="icon"
+                            backgroundColor="#fff"
+                            color={isFavorite ? "hsl(0, 93%, 42%)" : "#000"}
+                            border="1px solid #fff"
+                            icon={isFavorite ? MdBookmark : MdBookmarkBorder}
+                            onClick={handleToggleFavorite}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

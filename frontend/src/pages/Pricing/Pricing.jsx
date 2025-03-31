@@ -1,6 +1,7 @@
 import React from "react";
 import "./pricing.css"
 import { motion } from 'framer-motion';
+import ScrollButton from "../../components/ScrollButton/ScrollButton";
 
 const Pricing = () => {
     return (
@@ -13,6 +14,7 @@ const Pricing = () => {
             <div className="pricing">
                 <h1>Pricing</h1>
             </div>
+            <ScrollButton />
         </motion.div>
 
     )

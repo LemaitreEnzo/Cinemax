@@ -31,3 +31,8 @@
     left: 1rem;
     z-index: 1;
 }
+
+.card__link {
+    text-decoration: none;
+    color: inherit;
+}

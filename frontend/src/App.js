@@ -14,6 +14,8 @@ import Pricing from "./pages/Pricing/Pricing";
 import SignInUp from "./pages/SignInUp/SignInUp";
 import Favorites from './pages/Favorites/Favorites';
 import Footer from './layouts/Footer/Footer';
+import DetailMovie from './pages/DetailMovie/DetailMovie';
+import NotFound from './pages/Notfound/NotFound';
 
 function Layout({ user, setUser, data }) {
   const location = useLocation();
@@ -32,6 +34,9 @@ function Layout({ user, setUser, data }) {
         <Route path="/login" element={<SignInUp setUser={setUser} />} />
         <Route path="/search" element={<FilmSearch data={data} />} />
         <Route path="/favorites" element={<Favorites user={user} />} />
+        <Route path="/films/:id" element={<DetailMovie user={user} />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CardMovie from '../../components/CardMovie/CardMovie'; // Assurez-vous d'importer CardMovie
 import { motion } from 'framer-motion';
+import ScrollButton from '../../components/ScrollButton/ScrollButton';
 import './favorites.css'
 
 const Favorites = ({ user }) => {
@@ -58,8 +59,8 @@ const Favorites = ({ user }) => {
                     </div>
                 )}
             </div>
+            <ScrollButton />
         </motion.div>
-
     );
 };
 
