@@ -1,0 +1,38 @@
+.card__movie {
+    width: 100%;
+    position: relative;
+}
+
+.card__img {
+    width: 100%;
+    position: relative;
+}
+
+.card__img img {
+    border-radius: 20px;
+    transition: all .3s;
+}
+
+.card__img img:hover {
+    transform: scale(1.05);
+}
+
+.card__infos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.card__status {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1;
+}
+
+.card__link {
+    text-decoration: none;
+    color: inherit;
+}

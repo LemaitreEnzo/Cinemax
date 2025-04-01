@@ -1,0 +1,39 @@
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: var(--font-medium);
+}
+
+/* Styles spécifiques si c'est une icône */
+.button.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border-radius: 50%;
+}
+
+.button.icon svg {
+    font-size: var(--normal-font-size);  /* Ajuste la taille de l'icône */
+}
+
+/* Styles spécifiques si c'est du texte */
+.button.text {
+    padding: 15px 30px;
+    border-radius: var(--border-radius);
+    font-size: var(--normal-font-size);
+}
+
+.button.category {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    font-size: var(--normal-font-size);
+}
+
+.button:hover {
+    opacity: 0.95;
+}
