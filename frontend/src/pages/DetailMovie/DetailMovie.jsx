@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { MdBookmark, MdBookmarkBorder } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
+import { Link } from "react-router-dom";
+import { IoMdClose } from "react-icons/io";
 import "./detailmovie.css";
 
 const DetailMovie = ({ user }) => {
@@ -89,7 +92,6 @@ const DetailMovie = ({ user }) => {
         boxShadow: "rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        height: "100vh",
       }}
     >
       <div className="details__movie__img">
@@ -125,36 +127,55 @@ const DetailMovie = ({ user }) => {
               </Button>
             </div>
             <div className="card__icon__ticket">
-              <Button
-                type="text"
-                backgroundColor="#fff"
-                color="#000"
-                border="1px solid #fff"
-              >
-                Voir les cinémas autour de chez moi
-              </Button>
+              <Link to="/maps">
+                <Button
+                  type="text"
+                  backgroundColor="#fff"
+                  color="#000"
+                  border="1px solid #fff"
+                >
+                  Voir les cinémas autour de chez moi
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Popup si l'utilisateur n'est pas connecté */}
       {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <h2>Vous devez être connecté pour ajouter aux favoris.</h2>
-            <Button
-              onClick={closePopup}
-              backgroundColor="hsl(0, 93%, 42%)"
-              color="#fff"
-            >
-              Fermer
-            </Button>
-          </div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="popup-overlay"
+        >
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -50, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="popup"
+          >
+            <div className="popup-content">
+              <span className="popup-close" onClick={closePopup}><IoMdClose /></span>
+              <h2>Vous devez être connecté pour ajouter aux favoris.</h2>
+              <Link to="/login">
+                <Button
+                  backgroundColor="hsl(0, 93%, 42%)"
+                  color="#fff"
+                >
+                  Se connecter
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
+
     </div>
   );
 };
+
 
 export default DetailMovie;

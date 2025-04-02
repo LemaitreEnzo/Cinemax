@@ -6,6 +6,8 @@
 .card__img {
     width: 100%;
     position: relative;
+    display: flex;
+    justify-content: center;
 }
 
 .card__img img {

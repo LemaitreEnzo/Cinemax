@@ -1,0 +1,65 @@
+.category-container {
+    position: relative;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.category-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.category-select-container {
+    margin-bottom: 20px;
+}
+
+.category-label {
+    font-weight: bold;
+}
+
+.category-select {
+    padding: 8px;
+    width: 250px;
+    font-size: 16px;
+}
+
+.category-results {
+    position: absolute;
+    /* Positionner les résultats de manière absolue */
+    top: 75%;
+    /* En dessous du select */
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    /* Limiter la hauteur des résultats */
+    overflow-y: auto;
+    /* Ajouter une barre de défilement si nécessaire */
+    z-index: 10;
+    /* S'assurer que cela est affiché au-dessus des autres éléments */
+}
+
+.category-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.category-item:hover {
+    background-color: #f4f4f4;
+}
+
+.category-no-results {
+    padding: 10px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}

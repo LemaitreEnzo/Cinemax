@@ -49,7 +49,7 @@ const Home = ({ movies }) => {
             <p className="home__presentation__subtitle">
               Enjoy Streaming Today
             </p>
-            <h1 className="home__presentation__title">
+            <h1 className="home__presentation__title title">
               Welcome To Your Streaming Platform of choice
             </h1>
             <p className="home__presentation__description">
@@ -100,7 +100,7 @@ const Home = ({ movies }) => {
         </div>
       </div>
       <div className="movies section">
-        <h1>
+        <h1 className="title">
           The Most Popular
           <br />
           Movies 2024
@@ -110,7 +110,7 @@ const Home = ({ movies }) => {
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y]}
             spaceBetween={50}
-            slidesPerView={3}
+            slidesPerView={1}
             navigation
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
@@ -118,7 +118,7 @@ const Home = ({ movies }) => {
             onSlideChange={() => console.log("slide change")}
             breakpoints={{
               640: { slidesPerView: 1 },
-              768: { slidesPerView: 3 },
+              768: { slidesPerView: 2 },
               1024: { slidesPerView: 4 },
             }}
           >
@@ -139,6 +139,32 @@ const Home = ({ movies }) => {
             )}
           </Swiper>
         </div>
+      </div>
+      <div className="subscribe section">
+        <div className="subscribe__container">
+          <div className="subscribe__text title">
+            Enjoy Streaming Your Favorite Movie With Family
+          </div>
+          <div className="subscribe__buttons">
+            <Button
+              type="text"
+              backgroundColor="hsl(0, 93%, 42%)"
+              color="#fff"
+              border="1px solid hsl(0, 93%, 42%)"
+            >
+              S'abonner
+            </Button>
+            <Button
+              type="text"
+              backgroundColor="transparent"
+              color="#fff"
+              border="1px solid #fff"
+            >
+              Nous rejoindre
+            </Button>
+          </div>
+        </div>
+
       </div>
       <ScrollButton />
     </motion.div>

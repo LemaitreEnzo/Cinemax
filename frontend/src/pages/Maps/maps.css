@@ -1,0 +1,20 @@
+.maps {
+    background-color: var(--body-color1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.maps__presentation {
+    text-align: center;
+    color: var(--text-color);
+}
+
+.maps__presentation h1 {
+    font-size: var(--biggest-font);
+    font-weight: normal;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+}

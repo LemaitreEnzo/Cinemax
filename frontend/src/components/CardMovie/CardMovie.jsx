@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { MdBookmark, MdBookmarkBorder } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
+import { IoMdClose } from "react-icons/io";
 import "./cardMovie.css";
 
 const CardMovie = ({ title, image, id, user }) => {
@@ -101,18 +103,34 @@ const CardMovie = ({ title, image, id, user }) => {
       </div>
 
       {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <h2>Vous devez être connecté pour ajouter aux favoris.</h2>
-            <Button
-              onClick={closePopup}
-              backgroundColor="hsl(0, 93%, 42%)"
-              color="#fff"
-            >
-              Fermer
-            </Button>
-          </div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="popup-overlay"
+        >
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -50, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="popup"
+          >
+            <div className="popup-content">
+              <span className="popup-close" onClick={closePopup}><IoMdClose /></span>
+              <h2>Vous devez être connecté pour ajouter aux favoris.</h2>
+              <Link to="/login">
+                <Button
+                  backgroundColor="hsl(0, 93%, 42%)"
+                  color="#fff"
+                >
+                  Se connecter
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );

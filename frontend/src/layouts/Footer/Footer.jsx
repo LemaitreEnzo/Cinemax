@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="footer__container">
-        <div className="footer__col">
+        <div className="footer__col footer__logo">
           <div className="footer__img">
             <Link to="/" className="link">
               <img src="/uploads/images/logo.png" alt="" />
@@ -33,7 +33,7 @@ const Footer = () => {
         </div>
         <div className="footer__col footer__nav">
           <div className="footer__element">
-            <p className="title">Service</p>
+            <p className="footer__element__title">Service</p>
             <ul className="links">
               <li>
                 <Link to="/" className="link">
@@ -53,7 +53,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="footer__element">
-            <p className="title">Company</p>
+            <p className="footer__element__title">Company</p>
             <ul className="links">
               <li>
                 <Link to="/" className="link">
@@ -73,7 +73,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="footer__element">
-            <p className="title">Information</p>
+            <p className="footer__element__title">Information</p>
             <ul className="links">
               <li>
                 <Link to="/" className="link">

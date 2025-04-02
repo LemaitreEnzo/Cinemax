@@ -8,7 +8,6 @@ import {
 import { UserContext, UserProvider } from "./context/UserContext";
 import Footer from "./layouts/Footer/Footer";
 import Nav from "./layouts/Nav/Nav";
-import About from "./pages/About/About";
 import Categories from "./pages/Categories/categories";
 import DetailMovie from "./pages/DetailMovie/DetailMovie";
 import Favorites from "./pages/Favorites/Favorites";
@@ -16,6 +15,9 @@ import Home from "./pages/Home/Home";
 import NotFound from "./pages/Notfound/NotFound";
 import Pricing from "./pages/Pricing/Pricing";
 import SignInUp from "./pages/SignInUp/SignInUp";
+import CinemaMap from "./pages/Maps/Maps";
+import ShowCategories from "./pages/ShowCategories/ShowCategories";
+import Profile from "./pages/Profile/Profile";
 
 function Layout({ data, genres }) {
   const location = useLocation();
@@ -23,26 +25,33 @@ function Layout({ data, genres }) {
   const hideNav =
     location.pathname === "/login" || location.pathname === "/register";
 
+  const hideFooter =
+    location.pathname === "/login" || location.pathname === "/register";
+
   return (
     <>
-      {!hideNav && <Nav user={user} setUser={updateUser} />}
+      {!hideNav && <Nav user={user} setUser={updateUser} data={data} genres={genres} />}
       <Routes>
         <Route path="/" element={<Home movies={data} />} />
-        <Route path="/categories" element={<Categories />} />
+        <Route
+          path="/categories"
+          element={<ShowCategories data={data} genres={genres} user={user} />}
+        />
+        <Route
+          path="/categories/:category"
+          element={<Categories data={data} user={user} />}
+        />
         <Route path="/pricing" element={<Pricing />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/profile" element={<Profile user={user} />} />
         <Route path="/register" element={<SignInUp />} />
         <Route path="/login" element={<SignInUp />} />
         <Route path="/search" element={<FilmSearch data={data} />} />
-        <Route
-          path="/films-by-category"
-          element={<FilmsByCategory genres={genres} data={data} />}
-        />
         <Route path="/favorites" element={<Favorites user={user} />} />
+        <Route path="/maps" element={<CinemaMap />} />
         <Route path="/films/:id" element={<DetailMovie user={user} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
+      {!hideNav && <Footer />}
     </>
   );
 }

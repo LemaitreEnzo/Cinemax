@@ -1,0 +1,119 @@
+.search {
+    --background: #ffffff;
+    --text-color: #414856;
+    --primary-color: hsl(0, 91%, 27%);
+    --border-radius: 50px;
+    --width: 300px;
+    --height: 55px;
+    background: var(--background);
+    width: auto;
+    height: var(--height);
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(#414856, .05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    input[type="text"] {
+        position: relative;
+        width: var(--height);
+        height: var(--height);
+        font: 400 16px 'Varela Round', sans-serif;
+        color: var(--text-color);
+        border: 0;
+        box-sizing: border-box;
+        outline: none;
+        padding: 0 0 0 40px;
+        transition: width .6s ease;
+        z-index: 10;
+        opacity: 0;
+        cursor: pointer;
+
+        &:focus {
+            z-index: 0;
+            opacity: 1;
+            width: var(--width);
+
+            ~.symbol {
+                &::before {
+                    width: 0%;
+                }
+
+                &:after {
+                    clip-path: inset(0% 0% 0% 100%);
+                    transition: clip-path .04s linear .105s;
+                }
+            }
+        }
+    }
+
+    .symbol {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:before {
+            content: "";
+            position: absolute;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            z-index: -1;
+            transition: width .6s ease;
+        }
+    }
+}
+
+.search__container {
+    position: relative;
+}
+
+.search-results {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    border-radius: 10px;
+}
+
+.search-results-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-result-item {
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.search-result-item:hover {
+    background-color: #f4f4f4;
+}
+
+.loading-message,
+.error-message {
+    margin-top: 10px;
+    color: #555;
+}
+
+@media screen and (max-width: 768px) {
+    .search {
+        --width: 200px;
+    }
+}

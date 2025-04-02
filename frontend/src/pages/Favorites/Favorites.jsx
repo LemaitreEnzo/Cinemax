@@ -44,7 +44,7 @@ const Favorites = ({ user }) => {
       transition={{ duration: 1, ease: "easeInOut" }}
     >
       <div className="favorites section">
-        <h1>Mes films favoris</h1>
+        <h1 className="title">Mes films favoris</h1>
         {favorites.length === 0 ? (
           <p>Vous n'avez pas encore de films favoris.</p>
         ) : (

@@ -53,3 +53,23 @@ img {
 .section {
   padding: 50px;
 }
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 3em !important;
+  }
+
+  .section {
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 534px) {
+  .title {
+    font-size: var(--h2-font-size) !important;
+  }
+
+  .section {
+    padding: 10px;
+  }
+}

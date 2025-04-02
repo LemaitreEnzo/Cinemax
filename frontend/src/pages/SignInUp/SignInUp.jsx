@@ -29,6 +29,7 @@ const SignInUp = ({ setUser }) => {
 
   const handleSignUp = async (event) => {
     event.preventDefault();
+    console.log("Données envoyées :", formData);
     try {
       const response = await fetch("http://localhost:5001/api/users", {
         method: "POST",
